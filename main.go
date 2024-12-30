@@ -37,31 +37,15 @@ func contactHandler(w http.ResponseWriter, r *http.Request) {
 	executeTemplate(w, tplPath)
 }
 
+func faqHandler(w http.ResponseWriter, r *http.Request) {
+	tplPath := filepath.Join("templates", "faq.gohtml")
+	executeTemplate(w, tplPath)
+}
+
 func galleriesHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	// userID := chi.URLParam(r, "userID")
 	fmt.Fprint(w, "<h1>Welcome !</h1>")
-}
-
-func faqHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	fmt.Fprint(w, `<h1>FAQ Page</h1>
-	<ul>
-		<li>
-			<b>Is there a free version?</b>
-			Yes! We offer a free trial for 30 days on any paid plans.
-		</li>
-		<li>
-			<b>What are your support hours?</b>
-			We have support staff answering emails 24/7, though response
-			times may be a bit slower on weekends.
-		</li>
-		<li>
-			<b>How do I contact support?</b>
-			Email us - <a href="mailto:support@picshare.com">support@picshare.com</a>
-		</li>
-	</ul>
-`)
 }
 
 func main() {
@@ -71,9 +55,9 @@ func main() {
 	r.Use(middleware.Recoverer)
 
 	r.Get("/", homeHandler)
-	r.Get("/galleries/", galleriesHandler)
 	r.Get("/contact", contactHandler)
 	r.Get("/faq", faqHandler)
+	r.Get("/galleries/", galleriesHandler)
 
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Page not found", http.StatusNotFound)
